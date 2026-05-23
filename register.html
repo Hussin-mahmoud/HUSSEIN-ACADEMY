@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب جديد | HUSSEIN ACADEMY</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 40px 20px;
+        }
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: var(--shadow-md);
+        }
+        .auth-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .auth-card .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .input-field-wrapper {
+            position: relative;
+        }
+        .input-field-wrapper i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 15px;
+            outline: none;
+            transition: var(--transition);
+            background-color: #fafafa;
+        }
+        .input-group input:focus {
+            border-color: var(--primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+        .input-group input:focus + i {
+            color: var(--primary);
+        }
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+        /* مؤشر قوة الباسورد */
+        .password-strength {
+            height: 4px;
+            width: 100%;
+            background-color: var(--border);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+            display: none;
+        }
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: var(--transition);
+        }
+        /* التنبيهات المدمجة الاحترافية */
+        .alert-box {
+            padding: 12px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        .alert-danger { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .alert-success { background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 10px;
+            border-radius: var(--radius);
+        }
+        .btn-submit i { margin-left: 8px; }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="brand-logo">HUSSEIN <span>ACADEMY</span></a>
+        <div class="header-actions">
+            <a href="index.html" class="btn btn-outline"><i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>الرئيسية</a>
+        </div>
+    </header>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h2>إنشاء حساب جديد</h2>
+            <p class="subtitle">انضم إلينا وابدأ رحلتك التعليمية الآن</p>
+
+            <div id="alertBox" class="alert-box"></div>
+
+            <form id="realRegisterForm">
+                <div class="input-group">
+                    <label>الاسم ثلاثي أو رباعي</label>
+                    <div class="input-field-wrapper">
+                        <input type="text" id="regName" placeholder="مثال: حسين محمود محمد" required>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>البريد الإلكتروني</label>
+                    <div class="input-field-wrapper">
+                        <input type="email" id="regEmail" placeholder="name@example.com" required>
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>رقم الهاتف (واتساب نشط)</label>
+                    <div class="input-field-wrapper">
+                        <input type="tel" id="regPhone" placeholder="01XXXXXXXXX" required>
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>كلمة المرور</label>
+                    <div class="input-field-wrapper">
+                        <input type="password" id="regPassword" placeholder="اختر كلمة مرور قوية" required>
+                        <i class="fa-solid fa-lock"></i>
+                        <i class="fa-solid fa-eye toggle-password" id="showPassToggle"></i>
+                    </div>
+                    <div id="passStrength" class="password-strength">
+                        <div id="strengthBar" class="password-strength-bar"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>تأكيد كلمة المرور</label>
+                    <div class="input-field-wrapper">
+                        <input type="password" id="regConfirmPassword" placeholder="أعد كتابة كلمة المرور" required>
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn btn-primary btn-submit">
+                    <span id="btnText"><i class="fa-solid fa-user-plus"></i> تسجيل الحساب وتفعيل الواتساب</span>
+                </button>
+            </form>
+
+            <p style="text-align: center; margin-top: 25px; font-size: 14px; color: var(--text-muted);">
+                لديك حساب بالفعل؟ <a href="login.html" style="color: var(--primary); text-decoration: none; font-weight: 700;">تسجيل الدخول</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('realRegisterForm');
+        const passwordInput = document.getElementById('regPassword');
+        const confirmInput = document.getElementById('regConfirmPassword');
+        const strengthBar = document.getElementById('strengthBar');
+        const passStrengthDiv = document.getElementById('passStrength');
+        const alertBox = document.getElementById('alertBox');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+
+        // إظهار وإخفاء الباسورد
+        document.getElementById('showPassToggle').addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+        // مراقبة قوة كلمة المرور أثناء الكتابة
+        passwordInput.addEventListener('input', function() {
+            let val = passwordInput.value;
+            if(val.length > 0) {
+                passStrengthDiv.style.display = 'block';
+            } else {
+                passStrengthDiv.style.display = 'none';
+            }
+
+            if(val.length < 5) {
+                strengthBar.style.width = '30%';
+                strengthBar.style.backgroundColor = '#ef4444'; // ضعيف أحمر
+            } else if(val.length >= 5 && val.length < 8) {
+                strengthBar.style.width = '60%';
+                strengthBar.style.backgroundColor = '#f59e0b'; // متوسط برتقالي
+            } else {
+                strengthBar.style.width = '100%';
+                strengthBar.style.backgroundColor = 'var(--accent)'; // قوي أخضر
+            }
+        });
+
+        // دالة إظهار التنبيهات الاحترافية
+        function showAlert(msg, type) {
+            alertBox.innerText = msg;
+            alertBox.className = `alert-box alert-${type}`;
+            alertBox.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // معالجة فورمة التسجيل الحقيقية
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alertBox.style.display = 'none';
+
+            let name = document.getElementById('regName').value.trim();
+            let email = document.getElementById('regEmail').value.trim();
+            let phone = document.getElementById('regPhone').value.trim();
+            let password = passwordInput.value;
+            let confirmPassword = confirmInput.value;
+
+            // 1. فحص الاسم الثلاثي
+            if (name.split(' ').length < 3) {
+                showAlert('برجاء إدخال الاسم ثلاثي أو رباعي على الأقل لضمان اعتماد الحساب.', 'danger');
+                return;
+            }
+
+            // 2. فحص رقم الهاتف المصري
+            let phoneRegex = /^01[0125][0-9]{8}$/;
+            if (!phoneRegex.test(phone)) {
+                showAlert('برجاء إدخال رقم هاتف مصري صحيح مكون من 11 رقم (010, 011, 012, 015).', 'danger');
+                return;
+            }
+
+            // 3. تطابق كلمة المرور
+            if (password !== confirmPassword) {
+                showAlert('كلمات المرور غير متطابقة، يرجى إعادة التحقق.', 'danger');
+                return;
+            }
+
+            // تفعيل حالة التحميل اللطيفة على الزرار
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري تهيئة حسابك الاحترافي...';
+
+            setTimeout(() => {
+                // حفظ البيانات حقيقياً في LocalStorage للربط مع صفحة تسجيل الدخول
+                let users = JSON.parse(localStorage.getItem('academy_users')) || [];
+                
+                // التأكد إن الإيميل مش متسجل قبل كده
+                if(users.some(u => u.email === email)) {
+                    showAlert('هذا البريد الإلكتروني مسجل بالفعل، جرب تسجيل الدخول.', 'danger');
+                    submitBtn.disabled = false;
+                    btnText.innerHTML = '<i class="fa-solid fa-user-plus"></i> تسجيل الحساب وتفعيل الواتساب';
+                    return;
+                }
+
+                // إضافة المستخدم الجديد
+                users.push({ name, email, phone, password, role: 'student' });
+                localStorage.setItem('academy_users', JSON.stringify(users));
+
+                // إظهار رسالة النجاح
+                showAlert('تم إنشاء الحساب بنجاح! جاري توجيهك لتأكيد الاشتراك عبر واتساب...', 'success');
+
+                // التوجيه التلقائي المباشر للـ WhatsApp الخاص بك
+                let msg = `مرحباً HUSSEIN ACADEMY، لقد قمت بالتسجيل في المنصة.\nالاسم: ${name}\nالبريد: ${email}\nالهاتف: ${phone}\nأرجو تفعيل الحساب لبدء مراجعة الدروس الحرة والملحقات.`;
+                let adminNumber = "201090144852";
+                
+                setTimeout(() => {
+                    window.location.href = `https://wa.me/${adminNumber}?text=${encodeURIComponent(msg)}`;
+                }, 1500);
+
+            }, 1200); // محاكاة وقت معالجة حقيقي آمن
+        });
+    </script>
+</body>
+</html>

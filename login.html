@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول | HUSSEIN ACADEMY</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .auth-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 40px 20px;
+        }
+        .auth-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 40px 30px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: var(--shadow-md);
+        }
+        .auth-card h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-bg);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .auth-card .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        .input-field-wrapper {
+            position: relative;
+        }
+        .input-field-wrapper i {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 15px;
+            color: var(--text-muted);
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 45px 12px 15px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 15px;
+            outline: none;
+            transition: var(--transition);
+            background-color: #fafafa;
+        }
+        .input-group input:focus {
+            border-color: var(--primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+        }
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 15px;
+            cursor: pointer;
+            color: var(--text-muted);
+        }
+        .alert-box {
+            padding: 12px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        .alert-danger { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+        .alert-success { background-color: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 10px;
+            border-radius: var(--radius);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="main-header">
+        <a href="index.html" class="brand-logo">HUSSEIN <span>ACADEMY</span></a>
+        <div class="header-actions">
+            <a href="index.html" class="btn btn-outline"><i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>الرئيسية</a>
+        </div>
+    </header>
+
+    <div class="auth-wrapper">
+        <div class="auth-card">
+            <h2>تسجيل الدخول</h2>
+            <p class="subtitle">مرحباً بك مجدداً في منصتك التعليمية</p>
+
+            <div id="alertBox" class="alert-box"></div>
+
+            <form id="realLoginForm">
+                <div class="input-group">
+                    <label>البريد الإلكتروني</label>
+                    <div class="input-field-wrapper">
+                        <input type="email" id="loginEmail" placeholder="name@example.com" required>
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>كلمة المرور</label>
+                    <div class="input-field-wrapper">
+                        <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور" required>
+                        <i class="fa-solid fa-lock"></i>
+                        <i class="fa-solid fa-eye toggle-password" id="showPassToggle"></i>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn btn-primary btn-submit">
+                    <span id="btnText"><i class="fa-solid fa-right-to-bracket"></i> دخول المنصة</span>
+                </button>
+            </form>
+
+            <p style="text-align: center; margin-top: 25px; font-size: 14px; color: var(--text-muted);">
+                ليس لديك حساب؟ <a href="register.html" style="color: var(--primary); text-decoration: none; font-weight: 700;">إنشاء حساب جديد</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('realLoginForm');
+        const passwordInput = document.getElementById('loginPassword');
+        const alertBox = document.getElementById('alertBox');
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+
+        // إظهار وإخفاء الباسورد
+        document.getElementById('showPassToggle').addEventListener('click', function() {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                this.classList.replace('fa-eye', 'fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                this.classList.replace('fa-eye-slash', 'fa-eye');
+            }
+        });
+
+        function showAlert(msg, type) {
+            alertBox.innerText = msg;
+            alertBox.className = `alert-box alert-${type}`;
+            alertBox.style.display = 'block';
+        }
+
+        // معالجة تسجيل الدخول الحقيقي
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            alertBox.style.display = 'none';
+
+            let email = document.getElementById('loginEmail').value.trim();
+            let password = passwordInput.value;
+
+            // سحب المستخدمين المخزنين في المتصفح
+            let users = JSON.parse(localStorage.getItem('academy_users')) || [];
+
+            // البحث عن المستخدم بمطابقة الإيميل والباسورد
+            let user = users.find(u => u.email === email && u.password === password);
+
+            submitBtn.disabled = true;
+            btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> جاري التحقق...';
+
+            setTimeout(() => {
+                if (user) {
+                    showAlert('تم التحقق بنجاح! جاري فتح حسابك...', 'success');
+                    
+                    // حفظ بيانات المستخدم الحالي في الـ Session ليعرف السيستم من قام بالدخول
+                    localStorage.setItem('current_user', JSON.stringify(user));
+
+                    setTimeout(() => {
+                        window.location.href = 'student.html';
+                    }, 1000);
+                } else {
+                    showAlert('البريد الإلكتروني أو كلمة المرور غير صحيحة، يرجى المحاولة مجدداً.', 'danger');
+                    submitBtn.disabled = false;
+                    btnText.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> دخول المنصة';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

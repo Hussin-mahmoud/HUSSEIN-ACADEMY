@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HUSSEIN ACADEMY | المنصة التعليمية الاحترافية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <script>
+    function loadPosts() {
+        const posts = JSON.parse(localStorage.getItem('academy_posts')) || [];
+        const container = document.getElementById('postsContainer');
+        
+        // التأكد أن العنصر موجود قبل محاولة الكتابة فيه
+        if (!container) return; 
+        
+        container.innerHTML = '';
+        
+        posts.forEach(post => {
+            container.innerHTML += `
+                <div style="background:white; padding:20px; border-radius:12px; margin-bottom:15px; border-right:4px solid #f59e0b; box-shadow:0 2px 5px rgba(0,0,0,0.1);">
+                    <p style="font-size:16px; color:#333; margin:0 0 10px 0;">${post.text}</p>
+                    ${post.img ? `<img src="${post.img}" style="max-width:100%; border-radius:8px; display:block;">` : ''}
+                    <small style="display:block; margin-top:10px; color:#888;">${post.date}</small>
+                </div>
+            `;
+        });
+    }
+    
+    // استدعاء الدالة عند تحميل صفحة الطالب
+    window.onload = function() {
+        loadPosts();
+    };
+    
+    // التحديث الفوري عند تغيير أي شيء في لوحة التحكم (التي تستخدم نفس الـ localStorage)
+    window.addEventListener('storage', (e) => {
+        if(e.key === 'force_sync_trigger' || e.key === 'academy_posts') {
+            loadPosts();
+        }
+    });
+    </script>
+
+    <header class="main-header">
+        <a href="index.html" class="brand-logo">HUSSEIN <span>ACADEMY</span></a>
+        <ul class="nav-links">
+            <li><a href="#about">عن الأكاديمية</a></li>
+            <li><a href="#courses">الكورسات الحالية</a></li>
+            <li><a href="#pricing">خطط الاشتراك</a></li>
+        </ul>
+        <div class="header-actions">
+            <a href="login.html" class="btn btn-outline">تسجيل الدخول</a>
+            <a href="register.html" class="btn btn-primary">إنشاء حساب</a>
+        </div>
+    </header>
+
+    <!-- مكان ظهور الإعلانات -->
+    <div id="postsContainer" style="margin: 20px 5% 0 5%;"></div>
+
+    <section id="about" style="padding: 120px 5% 100px; background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white; text-align: center;">
+        <h1 style="font-size: 3rem; margin-bottom: 20px; font-weight: 800; line-height: 1.3;">انطلق في عالم الاحتراف والإنتاج الرقمي</h1>
+        <p style="font-size: 1.2rem; color: #94a3b8; max-width: 750px; margin: 0 auto 35px;">نقدم لك بيئة تعليمية متكاملة ومحمية بالكامل لتعلم المهارات المطلوبة في سوق العمل بأسلوب عملي وسلس يناسب كافة الأجهزة.</p>
+        <a href="#courses" class="btn btn-primary" style="padding: 14px 35px; font-size: 16px; border-radius: 30px;">استكشف الكورسات المتاحة</a>
+    </section>
+
+    <section id="courses" style="padding: 80px 5%; text-align: center;">
+        <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 700;">أحدث البرامج التدريبية المتاحة</h2>
+        <p style="color: var(--text-muted); margin-bottom: 50px; font-size: 16px;">تصفح الكورسات المرفوعة، واطلع على هيكل تقسيم الدروس وملحقاتها</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; text-align: right;">
+            
+            <div class="premium-card">
+                <div style="background-color: #f1f5f9; height: 180px; border-radius: var(--radius); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fa-solid fa-video" style="font-size: 3.5rem;"></i>
+                </div>
+                <h3 style="font-size: 1.35rem; margin-bottom: 10px; color: var(--text-main);">دورة صناعة المحتوى والمونتاج الشاملة</h3>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px; min-height: 70px;">تعلم المونتاج، التلوين السينمائي الاحترافي، والتعامل مع الصوت والمؤثرات لبناء هوية بصرية قوية على منصات التواصل.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 15px;">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 1.15rem;">مسار خاص</span>
+                    <a href="register.html" class="btn btn-primary" style="padding: 8px 18px; font-size: 13px;">تفاصيل والتحاق</a>
+                </div>
+            </div>
+
+            <div class="premium-card">
+                <div style="background-color: #f1f5f9; height: 180px; border-radius: var(--radius); margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: var(--primary);">
+                    <i class="fa-solid fa-wand-magic-sparkles" style="font-size: 3.5rem;"></i>
+                </div>
+                <h3 style="font-size: 1.35rem; margin-bottom: 10px; color: var(--text-main);">دورة المؤثرات البصرية وتصحيح الألوان المتقدم</h3>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px; min-height: 70px;">تطبيقات مكثفة على دمج العناصر، تعديل الإضاءة والظلال، وإخراج المشاهد بلمسة سينمائية دقيقة وملحقات جاهزة للتطبيق.</p>
+                <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 15px;">
+                    <span style="font-weight: 700; color: var(--accent); font-size: 1.15rem;">مسار خاص</span>
+                    <a href="register.html" class="btn btn-primary" style="padding: 8px 18px; font-size: 13px;">تفاصيل والتحاق</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="pricing" style="padding: 80px 5%; background-color: #f1f5f9; text-align: center;">
+        <h2 style="font-size: 2.2rem; margin-bottom: 15px; font-weight: 700;">أنظمة الاشتراك وتفعيل الحسابات</h2>
+        <p style="color: var(--text-muted); margin-bottom: 50px; font-size: 16px;">اختر نظام الدخول والوصول المفضل لديك لبدء المتابعة</p>
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; max-width: 1200px; margin: 0 auto;">
+            
+            <div class="premium-card" style="width: 350px; text-align: center; border-top: 5px solid var(--primary);">
+                <h3 style="font-size: 1.4rem; margin-bottom: 10px;">الوصول المخصص لكورس محدد</h3>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 15px;">شراء كورس فردي</div>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 25px; min-height: 60px;">صلاحية كاملة مفتوحة لمشاهدة جميع أجزاء ودروس كورس واحد فقط من اختيارك مع تحميل الملحقات كاملة.</p>
+                <a href="register.html" class="btn btn-primary" style="width: 100%;">طلب تفعيل الحساب</a>
+            </div>
+
+            <div class="premium-card" style="width: 350px; text-align: center; border-top: 5px solid var(--accent);">
+                <h3 style="font-size: 1.4rem; margin-bottom: 10px;">الوصول الزمني الشامل</h3>
+                <div style="font-size: 1.8rem; font-weight: 800; color: var(--accent); margin-bottom: 15px;">اشتراك 30 يوم</div>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 25px; min-height: 60px;">فتح وصول مؤقت لكافة الكورسات المتاحة على الأكاديمية لمدة شهر كامل، ويتم إغلاق المنصة تلقائياً بعد انتهاء المدة.</p>
+                <a href="register.html" class="btn btn-primary" style="width: 100%; background-color: var(--accent);">طلب تفعيل الحساب</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer style="background-color: var(--dark-bg); color: #94a3b8; padding: 40px 5%; text-align: center; border-top: 1px solid #1e293b;">
+        <div style="margin-bottom: 20px;">
+            <a href="#" class="brand-logo" style="font-size: 24px;">HUSSEIN <span>ACADEMY</span></a>
+        </div>
+        <p style="margin-bottom: 12px; color: #cbd5e1;">للتواصل المباشر والاستفسارات الفنية عبر واتساب: <strong style="color: #ffffff; font-size: 1.1rem; letter-spacing: 0.5px;">01090144852</strong></p>
+        <p style="font-size: 13px; color: #64748b;">&copy; 2026 HUSSEIN ACADEMY.جميع الحقوق محفوظة. .</p>
+    </footer>
+
+</body>
+</html>
