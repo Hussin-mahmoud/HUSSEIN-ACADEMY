@@ -4,139 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>أكاديمية التعليم العالي | HUSSEIN ACADEMY</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        body { background-color: #f3f4f6; color: #1f2937; }
-        .student-layout { max-width: 1400px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 340px 1fr; gap: 25px; }
-        .playlist-selector-box { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
-        .playlist-selector-box select { width: 100%; padding: 12px; border: 2px solid var(--primary); border-radius: 8px; outline: none; font-size: 14px; font-weight: 700; color: var(--dark-bg); background: #f8fafc; cursor: pointer; }
-        .sidebar-playlist { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: var(--shadow-sm); height: fit-content; }
-        .v-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
-        .v-item { padding: 14px 16px; background: #f8fafc; border-radius: 8px; cursor: pointer; font-size: 13.5px; font-weight: 600; transition: var(--transition); display: flex; align-items: center; gap: 10px; border: 1px solid transparent; color: #374151; }
-        .v-item:hover { background: #f1f5f9; color: var(--primary); }
-        .v-item.active { background: #eff6ff; color: var(--primary); border-color: rgba(37,99,235,0.2); font-weight: 700; }
-        .player-panel { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 25px; box-shadow: var(--shadow-sm); }
-        .screen-frame { background: #000; border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9; box-shadow: var(--shadow-md); position: relative; }
-        .html5-video { width: 100%; height: 100%; display: block; }
-        .download-box { margin-top: 25px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
-        .dl-btn { background: #f1f5f9; color: #1f2937; border: 1px solid var(--border); padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 13px; text-decoration: none; inline-flex: center; gap: 8px; display: inline-flex; transition: var(--transition); margin-left: 10px; }
-        .dl-btn:hover { background: #1f2937; color: white; }
-        .lock-curtain { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 999999; text-align: center; padding: 20px; display: none; }
+        :root { --primary: #2563eb; --border: #e5e7eb; --dark: #1f2937; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f3f4f6; color: var(--dark); margin: 0; }
+        .student-layout { display: grid; grid-template-columns: 350px 1fr; gap: 20px; padding: 20px; max-width: 1400px; margin: auto; }
+        
+        /* تحسين القائمة الجانبية */
+        .sidebar-playlist { background: white; border-radius: 12px; padding: 15px; height: 80vh; overflow-y: auto; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .v-item { padding: 12px; margin-bottom: 8px; background: #f9fafb; border-radius: 8px; cursor: pointer; transition: 0.3s; border: 1px solid #eee; }
+        .v-item:hover, .v-item.active { background: var(--primary); color: white; }
+        
+        /* تحسين المشغل */
+        .screen-frame { background: #000; border-radius: 12px; overflow: hidden; aspect-ratio: 16/9; position: relative; }
+        .html5-video { width: 100%; height: 100%; }
+        
+        /* تحسينات عامة */
+        .loading-spinner { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; display: none; }
     </style>
 </head>
 <body>
 
-    <div id="lockCurtain" class="lock-curtain">
-        <i class="fa-solid fa-hourglass-lock" style="font-size: 70px; color: #ef4444; margin-bottom: 20px;"></i>
-        <h2 id="lockTitle" style="font-weight:800; font-size:24px; margin-bottom:10px;">عذراً، اشتراكك انتهى أو تم حظره!</h2>
-        <a href="https://wa.me/201090144852" target="_blank" class="btn btn-primary" style="text-decoration:none; padding:12px 30px;"><i class="fa-brands fa-whatsapp"></i> تواصل مع الإدارة</a>
-    </div>
-
-    <header class="main-header" style="background: white; border-bottom: 1px solid var(--border);">
-        <a href="index.html" class="brand-logo" style="color:var(--dark-bg);">HUSSEIN <span style="color:var(--primary)">ACADEMY</span></a>
-        <div id="welcomeUser" style="font-weight:700; color:#1f2937;"></div>
-        <div class="header-actions">
-            <span id="daysCounter" style="background:#eff6ff; padding:8px 16px; border-radius:20px; font-size:12px; font-weight:700; color:var(--primary); margin-left:15px;"></span>
-            <button onclick="exit()" class="btn btn-primary" style="background:#ef4444; border-color:#ef4444; padding:8px 16px; font-size:13px;">تسجيل خروج</button>
-        </div>
-    </header>
+    <!-- Curtain Lock & Header (Keep as is in your version) -->
+    <div id="lockCurtain" class="lock-curtain">...</div>
 
     <div class="student-layout">
-        <div>
-            <div class="playlist-selector-box">
-                <select id="courseDropdown" onchange="loadVideosOfSelectedCourse()"></select>
-            </div>
-            <aside class="sidebar-playlist">
-                <ul class="v-list" id="videosListView"></ul>
-            </aside>
-        </div>
+        <aside class="sidebar-playlist">
+            <select id="courseDropdown" onchange="loadVideosOfSelectedCourse()"></select>
+            <ul class="v-list" id="videosListView" style="padding:0; list-style:none; margin-top:20px;"></ul>
+        </aside>
+        
         <main class="player-panel">
-            <h2 id="videoDisplayTitle" style="font-size:1.4rem; font-weight:700; margin-top:0; margin-bottom:20px;">اختر الدرس</h2>
-            <div class="screen-frame" id="playerContainer"></div>
+            <h2 id="videoDisplayTitle">اختر الدرس</h2>
+            <div class="screen-frame" id="playerContainer">
+                <div id="loader" class="loading-spinner"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+            </div>
             <div class="download-box" id="attachmentsBox"></div>
         </main>
     </div>
 
     <script>
         let hlsInstance = null;
-        
-        // --- نظام الحماية المعدل ---
-        function enforceSecurity() {
-            const current = JSON.parse(localStorage.getItem('current_user'));
-            const allUsers = JSON.parse(localStorage.getItem('academy_users')) || [];
+
+        // دالة تشغيل الفيديو مع حفظ مكان التوقف (Resume feature)
+        window.triggerStream = function(videoJson, element) {
+            const v = typeof videoJson === 'string' ? JSON.parse(videoJson.replace(/&quot;/g, '"')) : videoJson;
             
-            // تحقق: هل المستخدم مسجل أصلاً في النظام؟
-            const userData = allUsers.find(u => u.email === current?.email);
+            // تحديث العناصر النشطة
+            document.querySelectorAll('.v-item').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
+            
+            document.getElementById('videoDisplayTitle').innerText = v.title;
+            const container = document.getElementById('playerContainer');
+            const loader = document.getElementById('loader');
+            
+            loader.style.display = 'block';
+            if (hlsInstance) hlsInstance.destroy();
 
-            if (!current || !userData) {
-                window.location.href = 'login.html'; // طرد غير المسجلين
-                return false;
+            // منطق تشغيل ذكي
+            if (v.src.includes('.m3u8')) {
+                container.innerHTML = `<video id="hlsPlayer" class="html5-video" controls autoplay></video>`;
+                const video = document.getElementById('hlsPlayer');
+                hlsInstance = new Hls();
+                hlsInstance.loadSource(v.src);
+                hlsInstance.attachMedia(video);
+                hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+                    loader.style.display = 'none';
+                    // استعادة وقت المشاهدة السابق إذا وجد
+                    video.currentTime = localStorage.getItem(`time_${v.title}`) || 0;
+                });
+                // حفظ التوقيت دورياً
+                video.addEventListener('timeupdate', () => {
+                    localStorage.setItem(`time_${v.title}`, video.currentTime);
+                });
+            } else {
+                container.innerHTML = `<video class="html5-video" controls src="${v.src}"></video>`;
+                loader.style.display = 'none';
             }
+        };
 
-            // تحقق من الصلاحية
-            const diff = new Date(userData.expiryDate) - new Date();
-            const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-
-            if (userData.status !== 'active' || days <= 0) {
-                document.getElementById('lockCurtain').style.display = 'flex';
-                return false;
-            }
-
-            document.getElementById('welcomeUser').innerText = `مرحباً: ${userData.name}`;
-            document.getElementById('daysCounter').innerText = `متبقي: ${days} يوم`;
-            return true;
-        }
-
-        // تنفيذ فوري
-        if(enforceSecurity()) {
-            loadCoursesDropdown();
-        }
-
-        function loadCoursesDropdown() {
-            const courses = JSON.parse(localStorage.getItem('academy_playlists')) || [];
-            const dropdown = document.getElementById('courseDropdown');
-            dropdown.innerHTML = courses.map(c => `<option value="${c}">${c}</option>`).join('');
-            loadVideosOfSelectedCourse();
-        }
-
+        // تحسين تحميل القائمة لتكون أكثر سرعة
         function loadVideosOfSelectedCourse() {
             const selectedCourse = document.getElementById('courseDropdown').value;
             const allVideos = JSON.parse(localStorage.getItem('academy_playlist_videos')) || [];
             const filtered = allVideos.filter(v => v.course === selectedCourse);
             const list = document.getElementById('videosListView');
-            list.innerHTML = filtered.map((v, i) => 
-                `<li class="v-item ${i===0?'active':''}" onclick="triggerStream('${JSON.stringify(v).replace(/"/g, '&quot;')}', this)">${v.title}</li>`
-            ).join('');
-            if(filtered.length > 0) triggerStream(filtered[0], document.querySelector('.v-item'));
-        }
-
-        window.triggerStream = function(videoJson, element) {
-            const v = typeof videoJson === 'string' ? JSON.parse(videoJson.replace(/&quot;/g, '"')) : videoJson;
-            // تحديث الواجهة
-            document.getElementById('videoDisplayTitle').innerText = v.title;
-            document.getElementById('attachmentsBox').innerHTML = v.link ? `<a href="${v.link}" target="_blank" class="dl-btn">تحميل الملحق</a>` : '';
             
-            // تشغيل الفيديو
-            const container = document.getElementById('playerContainer');
-            if (hlsInstance) hlsInstance.destroy();
-            
-            if (v.src.includes('youtu')) {
-                container.innerHTML = `<iframe class="html5-video" src="https://www.youtube.com/embed/${v.src.split('/').pop().split('v=')[1] || v.src.split('/').pop()}"></iframe>`;
-            } else if (v.src.includes('.m3u8')) {
-                container.innerHTML = `<video id="hlsPlayer" class="html5-video" controls></video>`;
-                hlsInstance = new Hls();
-                hlsInstance.loadSource(v.src);
-                hlsInstance.attachMedia(document.getElementById('hlsPlayer'));
-            } else {
-                container.innerHTML = `<video class="html5-video" controls src="${v.src}"></video>`;
-            }
-        }
-
-        function exit() { 
-            localStorage.removeItem('current_user'); 
-            window.location.href = 'login.html'; 
+            list.innerHTML = filtered.map((v, i) => `
+                <li class="v-item" onclick="triggerStream('${JSON.stringify(v).replace(/"/g, '&quot;')}', this)">
+                    <i class="fa fa-play-circle"></i> ${v.title}
+                </li>
+            `).join('');
         }
     </script>
 </body>
